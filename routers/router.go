@@ -6,5 +6,5 @@ import (
 )
 
 func init() {
-    beego.Router("/", &controllers.WeChatController{})
+	beego.Router("/weixin", &controllers.WeChatController{}, "*:WeChat")
 }
