@@ -2,9 +2,10 @@ package routers
 
 import (
 	"pinyin/controllers"
+
 	"github.com/astaxie/beego"
 )
 
 func init() {
-	beego.Router("/weixin", &controllers.WeChatController{}, "*:WeChat")
+	beego.Router("/weixin", &controllers.WeChatController{}, "*:Any")
 }

@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"fmt"
+
 	"github.com/astaxie/beego"
 	"github.com/silenceper/wechat"
 	"github.com/silenceper/wechat/message"
@@ -11,6 +13,7 @@ type WeChatController struct {
 }
 
 func (c *WeChatController) Any() {
+	beego.Debug("Begin Any" )
 	//配置微信参数
 	config := &wechat.Config{
 		AppID:          beego.AppConfig.String("wcAppId"),
@@ -20,10 +23,11 @@ func (c *WeChatController) Any() {
 	}
 	wc := wechat.NewWechat(config)
 
-	// 传入request和responseWriter
-	server := wc.GetServer(c.ctx.Request, c.ctx.ResponseWriter)
+	beego.Debug("Get data:", c.Ctx.Input.Method(), c.Ctx.Input.Site())
 
-	beego.Debug("get data:", c.ctx.Input.Method(), c.ctx.Input.Site())
+	// 传入request和responseWriter
+	server := wc.GetServer(c.Ctx.Request, c.Ctx.ResponseWriter)
+
 	//设置接收消息的处理方法
 	server.SetMessageHandler(func(msg message.MixMessage) *message.Reply {
 
