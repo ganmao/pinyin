@@ -13,17 +13,17 @@ import (
 func hello(ctx *context.Context) {
 	//配置微信参数
 	config := &wechat.Config{
-		AppID:          "wxe5a524a81ebaded6",
-		AppSecret:      "57206d630acdab6f0b4176b4f3743ade",
-		Token:          "zhanghaolin1017",
-		EncodingAESKey: "7bT4Et5UdajhtC0vRn0Ca4Chf8rwBhYDbRlC6UjSABK",
+		AppID:          beego.AppConfig.String("wcAppId"),
+		AppSecret:      beego.AppConfig.String("wcAppSecret"),
+		Token:          beego.AppConfig.String("wcToken"),
+		EncodingAESKey: beego.AppConfig.String("wcEncodingAESKey"),
 	}
 	wc := wechat.NewWechat(config)
 
 	// 传入request和responseWriter
 	server := wc.GetServer(ctx.Request, ctx.ResponseWriter)
 
-    beego.Debug("get data:", ctx.Request)
+	beego.Debug("get data:", ctx.Input.Method(), ctx.Input.Site())
 	//设置接收消息的处理方法
 	server.SetMessageHandler(func(msg message.MixMessage) *message.Reply {
 
