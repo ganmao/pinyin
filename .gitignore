@@ -5,6 +5,7 @@ pinyin
 *.so
 *.dylib
 *.log
+*.jpg
 
 # Test binary, build with `go test -c`
 *.test
