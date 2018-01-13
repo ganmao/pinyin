@@ -10,7 +10,7 @@ import (
 	"github.com/astaxie/beego"
 )
 
-// 下载微信图片，保存到指定目录
+// GetWeChatImage 下载微信图片，保存到指定目录
 func GetWeChatImage(name string, url string, localPath string) (n int64, err error){
 	beego.Debug("Download Image name : ", name)
 	beego.Debug("Download Image url : ", url)

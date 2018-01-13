@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/astaxie/beego"
-	"github.com/silenceper/wechat"
 	"github.com/silenceper/wechat/message"
 
 	"pinyin/libs"
@@ -16,30 +15,21 @@ type WeChatController struct {
 
 func (c *WeChatController) Any() {
 	beego.Debug("Begin Any")
-	//配置微信参数
-	config := &wechat.Config{
-		AppID:          beego.AppConfig.String("wcAppId"),
-		AppSecret:      beego.AppConfig.String("wcAppSecret"),
-		Token:          beego.AppConfig.String("wcToken"),
-		EncodingAESKey: beego.AppConfig.String("wcEncodingAESKey"),
-	}
-	wc := wechat.NewWechat(config)
-
 	beego.Debug("Get data:", c.Ctx.Input.Method(), c.Ctx.Input.Site())
 
 	// 传入request和responseWriter
-	server := wc.GetServer(c.Ctx.Request, c.Ctx.ResponseWriter)
+	server := libs.WX.GetServer(c.Ctx.Request, c.Ctx.ResponseWriter)
 
-	//设置接收消息的处理方法
+	// 设置接收消息的处理方法
 	server.SetMessageHandler(func(msg message.MixMessage) *message.Reply {
 		switch msg.MsgType {
-		//文本消息
+		// 文本消息
 		case message.MsgTypeText:
-			//回复消息：演示回复用户发送的消息
+			// 回复消息：演示回复用户发送的消息
 			text := message.NewText(msg.Content)
 			beego.Debug("Get Msg Text : ", msg.Content)
 			return &message.Reply{message.MsgTypeText, text}
-			//图片消息
+		// 图片消息
 		case message.MsgTypeImage:
 			image :=message.NewImage(msg.MediaID)
 			beego.Debug("Get Msg Image MediaID : ", msg.MediaID)
@@ -47,7 +37,7 @@ func (c *WeChatController) Any() {
 
 			// 下载图片
 			path := beego.AppConfig.String("wcDownImagesPath")
-			imgLength, err := libs.GetWeChatImage(msg.MediaID+".jpg",msg.PicURL,path)
+			imgLength, err := libs.GetWeChatImage(msg.MediaID+".jpg", msg.PicURL, path)
 			if err != nil {
 				beego.Debug("Download Image Err : ", err)
 			}else{
